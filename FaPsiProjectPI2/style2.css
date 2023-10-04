@@ -1,0 +1,188 @@
+
+body {
+    background-color: white;
+}
+.container {
+    margin: 0 auto;
+    max-width: 500px;
+    background-color: #4257b3;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 50px;
+    color: white;
+}
+.contcont {
+    margin: 0 auto;
+    max-width: 550px;
+    background-color: #d9d9d9;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 50px;
+    color: black;
+}
+input[type="text"], input[type="password"] {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 80%;
+}
+button[type="submit"] {
+    background-color: #eaad31;
+    color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    width: 80%;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.menu {
+    background-color: #243a96;
+    padding: 10px;
+    text-align: center;
+    
+}
+.Header {
+    background-color: #0000;
+    padding: 20px;
+    text-align: right;
+    
+}
+.Header a {
+    margin-right: 20px;
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: gray;
+}
+.menu a {
+    margin-right: 20px;
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+.menu a:hover {
+    color: white;
+}
+
+#navBar {
+z-index: 1;
+top: 0;
+left: 0;
+width: 100%;
+text-align: center;
+}
+
+#navBar a {
+display: block;
+text-decoration: none;
+}
+
+#navBar a:hover {
+background: #5568bb;
+text-decoration: none;
+}
+
+#navBar a.selected {
+background: #35468f;
+text-decoration: none;
+}
+
+
+.sprite {
+background-image: url("images/sprite.svg") !important;
+background-repeat: no-repeat !important;
+background-size: 350px 3500px !important;
+}
+.no-svg .sprite {
+background-image: url("images/sprite.svg") !important;
+background-repeat: no-repeat !important;
+background-size: 350px 3500px !important;
+}
+
+
+.cont-citas{
+display: flex;
+flex-direction: column;
+flex-wrap: wrap;
+}
+#cont-citas-1{
+width: 25%;
+}
+#cont-citas-2{
+width: 100%;
+}
+#Cita-unit{
+margin: 0 auto;
+max-width: fit-content;
+background-color: #fffefe;
+border-color: #000000;
+max-width: 200px;
+}
+#img-calendario{
+height: 400px;
+}
+
+.Citas-main{
+    margin: 0 auto;
+    max-width: 830px;
+    background-color: #d9d9d9;
+    padding: 20px;
+    text-align: center;
+    margin-top: 0px;
+    color: rgb(0, 0, 0)
+}
+.Citas-main h3{
+font-size: 30px;
+}
+#img-botom{
+height: 200px;
+padding-left: 33%;
+}
+#Foot1{
+background-color: #ffffff;
+text-align: left;
+color: #000;
+}
+
+#calendar {
+font-family: Arial, sans-serif;
+border-collapse: collapse;
+width: 100%;
+}
+
+#calendar th {
+background-color: #0077cc;
+color: #fff;
+font-weight: normal;
+text-align: center;
+padding: 10px;
+}
+
+#calendar td {
+border: 1px solid #ccc;
+padding: 10px;
+height: 50px;
+}
+
+#calendar td:hover {
+background-color: #f5f5f5;
+cursor: pointer;
+}
+
+#calendar td.active {
+background-color: #0077cc;
+color: #fff;
+}
+
+.Content-bg{
+    background-image: url(/images/Fachada-USP.jpg);
+    background-size:auto ;
+    background-repeat: no-repeat;
+}

@@ -13,6 +13,7 @@ body {
     color: white;
 }
 .contcont {
+	display: inline-flex;
     margin: 0 auto;
     max-width: 550px;
     background-color: #d9d9d9;
@@ -21,6 +22,7 @@ body {
     border-radius: 10px;
     margin-top: 50px;
     color: black;
+    
 }
 input[type="text"], input[type="password"] {
     padding: 10px;
@@ -185,4 +187,64 @@ color: #fff;
     background-image: url(/images/Fachada-USP.jpg);
     background-size:auto ;
     background-repeat: no-repeat;
+}
+
+.tablaCitas{
+	
+	display: inline-block;
+	position: absolute;
+	margin-top: 200px;
+	
+}
+
+
+table {
+	margin: 0;
+	background: linear-gradient(0deg, #49a09d, #243A96);
+	font-family: sans-serif;
+	font-weight: 100;
+	width: 800px;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+th {
+	text-align: left;
+}
+
+thead {
+	th {
+		background-color: #55608f;
+	}
+}
+
+tbody {
+	tr{
+		&:hover {
+			background-color: rgba(255,255,255,0.3);
+		}
+	}
+	td {
+		position: relative;
+		&:hover {
+			&:before {
+				content: "";
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: -9999px;
+				bottom: -9999px;
+				background-color: rgba(255,255,255,0.2);
+				z-index: -1;
+			}
+		}
+	}
 }

@@ -62,7 +62,6 @@ if (!isset($_SESSION['dev'])) {
 
                           ?>
                           </a>
-                        </input>
                     </form>
                 </div>
             </div>
@@ -105,7 +104,6 @@ if (!isset($_SESSION['dev'])) {
                 <a class="dropdown-item" href="#">CRIDS</a>
               </div>-->
             </li>
-            <br>
         </ul>
       </div>
       </nav>
@@ -153,27 +151,25 @@ if (!isset($_SESSION['dev'])) {
 
 
     <!-- CONTENT -->
-    <div class="row container-fluid cms py-5 w-100">
-
-
-        <div class="justify-content-centercontcont card-body h-25 w-100">
-            <br>
-            <div class="Citas-main">
-                    <div>
-                        <h3 style="font-size: 50px;">Citas</h3>
-                    </div>
-                    <div>
-                        <h4>Agenda tus citas de manera mas cómoda:</h4>
-                        <p>Para agendar, selecciona la fecha en la que deseas que se te atienda, esta información ira a tu terapeuta el cual podrá confirmar si es una fecha ideal. Una vez ambos estén de acuerdo, se agendara en el siguiente calendario; en el caso contrario se regresara una respuesta y las posibles fechas mas cercanas a la fecha deseada</p>
-                    </div>
-                    <Div class="cont-citas">
-                        <Div>
-                            <p>Elija en el calendario de la derecha la fecha que desea agendar su cita y la razón por la que la desea agendar</p>
-                        </Div> 
+<div class="row container-fluid cms py-5 w-100">
+    <div class="justify-content-center contcont card-body h-25 w-100">
+        <br>
+        <div class="Citas-main">
+            <div>
+                <h3 style="font-size: 50px;">Citas</h3>
+            </div>
+            <div>
+                <h4>Agenda tus citas de manera más cómoda:</h4>
+                <p>Para agendar, selecciona la fecha en la que deseas que se te atienda, esta información irá a tu terapeuta el cual podrá confirmar si es una fecha ideal. Una vez ambos estén de acuerdo, se agendará en el siguiente calendario; en el caso contrario se regresará una respuesta y las posibles fechas más cercanas a la fecha deseada</p>
+            </div>
+            <div class="cont-citas">
+                <div>
+                    <p>Elija en el calendario de la derecha la fecha que desea agendar su cita y la razón por la que la desea agendar</p>
+                </div>
 						
-						<form style="display:inline-block;" action="agendacita.php" method="post">
-                          <label for="Horario">Horario a elegir:</label>
-                          <select name="horas" id="horas">
+				<form style="display:inline-block;" action="agendacita.php" method="post">
+                        <label for="Horario">Horario a elegir:</label>
+                        <select name="horas" id="horas">
                             <option value="9 AM a 10 AM">9:00AM - 10:00 AM</option>
                             <option value="10 AM a 11 AM">10:00AM - 11:00 AM</option>
                             <option value="11 AM a 12 PM">11:00AM - 12:00 PM</option>
@@ -201,70 +197,68 @@ if (!isset($_SESSION['dev'])) {
                                   $fechaActual->add(new DateInterval('P1D'));
                                 }
                               ?>
-                            </select>
+                          </select>
                           <br>
                           <label for="Especialista">Especialista:</label>
                           <select>
                             <option value="psic">Psicólogo</option>
                             <option value="psiq">Psiquiatra</option>
-							
                           </select>
+                          
                           <button type="submit" class="font-weight-bold" id="submitagenda" name="submitagenda">Agendar cita</button>
-                        </form>
                         
-						<div>
-                      <?php 
-					            $id_paciente=$_SESSION['id_paciente'];
-                      $username = "root"; 
-                      $password = ""; 
-                      $database = "citasfapsi"; 
-                      $mysqli = new mysqli("localhost", $username, $password, $database); 
-                      $query = "SELECT * FROM horarios WHERE id_paciente =$id_paciente";
+                    </form>
+                        
+                       <!-- <div class="row container-fluid cms py-0" style="height:100px"></div> -->
+                        
+                        <!-- Tabla de agenda -->
+                    <div class="table-responsive tabladiseño">
+                    <?php 
+                        $id_paciente = $_SESSION['id_paciente'];
+                        $username = "root"; 
+                        $password = ""; 
+                        $database = "citasfapsi"; 
+                        $mysqli = new mysqli("localhost", $username, $password, $database); 
+                        $query = "SELECT * FROM horarios WHERE id_paciente = $id_paciente";
 
-                      echo '<table border="1" cellspacing="2" cellpadding="2"> 
+                        echo '<table class="table table-bordered"  border="1" cellspacing="2" cellpadding="2"> 
                             <tr> 
-                                <th> <font face="Arial">-----Numero de cita-----</font> </th> 
-                                
-                                <th> <font face="Arial">-----ID paciente-----</font> </th> 
-                                <th> <font face="Arial">-----Fechas ocupadas-----</font> </th> 
-                                <th> <font face="Arial">-----Disponibilidad-----</font> </th> 
+                                <th>     Numero de cita     </th> 
+                                <th>     ID paciente     </th> 
+                                <th>     Hora y fecha de cita     </th> 
+                                <th>     Disponibilidad     </th> 
                             </tr>';
 
-                      if ($result = $mysqli->query($query)) {
-                          while ($row = $result->fetch_assoc()) {
-                              $field1name = $row["num_cita"];
+                        if ($result = $mysqli->query($query)) {
+                            while ($row = $result->fetch_assoc()) {
+                                $field1name = $row["num_cita"];
+                                $field3name = $row["id_paciente"];
+                                $field4name = $row["fechayhoras"];
+                                $field5name = $row["isdisponible"]; 
 
-                              $field3name = $row["id_paciente"];
-                              $field4name = $row["fechayhoras"];
-                              $field5name = $row["isdisponible"]; 
-
-                              echo '<tr> 
-                                        <td>'.$field1name.'</td> 
-
-                                        <td>'.$field3name.'</td> 
-                                        <td>'.$field4name.'</td> 
-                                        <td>'.$field5name.'</td> 
-                                    </tr>';
-                          }
-                          $result->free();
-                      } 
-                      ?>
-                    </div>
-                    </Div>
-                    <br>
-                    
-
-
-
-    <div class="contcont card-body h-25 w-100" style="background-color: transparent;">
-      <a href="http://www.psicologia.uanl.mx" class="btn btn-yellow text-muted font-weight-bold">Salir a Facultad de Psicología</a>
-  </div>
-  </div> 
+                                echo '<tr> 
+                                    <td>'.$field1name.'</td> 
+                                    <td>'.$field3name.'</td> 
+                                    <td>'.$field4name.'</td> 
+                                    <td>'.$field5name.'</td> 
+                                </tr>';
+                            }
+                            $result->free();
+                        } 
+                    ?>
+                </div>
+                        
+            
+        </div>
+	</div>
+	<div class="text-center mt-4">
+            <a href="http://psicologia.uanl.mx"><button class="btn btn-primary" >Salir a la Facultad de Psicología</button></a>
+        </div>
+</div>
+<br>
+</div> 
 
     <!-- CONTENT end-->
-
-
-    <div class="row container-fluid cms py-0" style="height:100px"></div>
         
 
 <!-- Optional JavaScript -->

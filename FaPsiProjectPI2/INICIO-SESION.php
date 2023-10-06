@@ -44,7 +44,6 @@
                     <form action="#">
                         
                             <a href="INICIO-SESION.php"><img id="img-perfil" src="images/Perfil.png" alt=""></a>
-                        </input>
                     </form>
                 </div>
             </div>
@@ -170,7 +169,6 @@
     <div class="contcont card-body h-25 w-100" style="background-color: transparent;">
       <a href="http://www.psicologia.uanl.mx" class="btn btn-yellow text-muted font-weight-bold">Salir a Facultad de Psicología</a>
   </div>
-   </div> 
 
     <!-- CONTENT end-->
 

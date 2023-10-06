@@ -144,6 +144,7 @@ if (isset($_SESSION['dev'])) {
 
     <!-- CONTENT -->
     <div class="row container-fluid cms py-5">
+    <div class="justify-content-centercontcont card-body h-25 w-100">
 
             <h1>Servicios</h1>
           <br><br><br><br>
@@ -196,7 +197,7 @@ function myFunction() {
     
             </div>
 
-        </div>  
+        </div> </div>  
         
         <br><br>
         <div class="row container-fluid cms py-0">

@@ -60,15 +60,15 @@
         <div class="justify-content-center collapse navbar-collapse shrinked-navbar" id="navbarSupportedContent2">
         <ul class="navbar-nav pr-2">
           <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/PAGINA-DE-SERVICIOS.PHP">
+            <a class="nav-link text-light blackText" href="PAGINA-DE-SERVICIOS.PHP">
               Inicio
             </a></li>
             <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/OTROS-SERV.PHP">
+            <a class="nav-link text-light blackText" href="OTROS-SERV.PHP">
               Servicios
             </a></li>
             <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/NOTICIAS.PHP">
+            <a class="nav-link text-light blackText" href="NOTICIAS.PHP">
               Noticias
             </a></li>
           <li class="nav-item dropdown">
@@ -109,7 +109,7 @@
           <div class="carousel-item CarouselImg">
             <img class="d-block w-100" src="images/Library-many-books-path_1920x1080.jpg" alt="Second slide">
             <div class="text-white bannerTitle">
-                <h5>Avizos</h5>
+                <h5>Avisos</h5>
                 <p>Informate de los acontecimientos de la USP.</p>
               </div>
             </div>
@@ -143,11 +143,11 @@
           <h1>Iniciar sesión</h1>
           <br>
           <form action="login-register.php" method="POST">
-              <label for="puesto">Tipo de cuenta: </label>
+              <!--<label for="puesto">Tipo de cuenta: </label>
               <select name="rol" id="rol">
               <option value="pacientes">Paciente</option>
-              <option value="psicólogos">Psicologo</option>
-            </select>
+              <option value="psicólogos">Psicólogo</option>
+            </select> -->
               <input type="text" id="nombres" name="nombres" placeholder="Nombres de la cuenta" required><br>
               <input type="text" id="correo" name="correo" placeholder="Correo" required><br>
               <input type="password" id="verifpass" name="verifpass" placeholder="Contraseña" required><br>
@@ -158,6 +158,9 @@
               <br>
               <p>¿No tienes una cuenta?, ¡Registrate!</p>
               <a href="REGISTRARSE.php" class="btn btn-yellow text-muted font-weight-bold">Regístrate</a>
+              <div class="card-body py-4 h-25 w-100 " style="background-color: transparent;">
+      <a href="http://www.psicologia.uanl.mx" class="btn btn-yellow text-muted font-weight-bold">Salir a Facultad de Psicología</a>
+  </div>
           </form>
         </div>
         
@@ -166,9 +169,7 @@
         <!-- I N I C I A R  S E S I O N -->
 
     </div>
-    <div class="contcont card-body h-25 w-100" style="background-color: transparent;">
-      <a href="http://www.psicologia.uanl.mx" class="btn btn-yellow text-muted font-weight-bold">Salir a Facultad de Psicología</a>
-  </div>
+    
 
     <!-- CONTENT end-->
 

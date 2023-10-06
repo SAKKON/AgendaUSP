@@ -78,23 +78,23 @@ if (!isset($_SESSION['dev'])) {
         <div class="justify-content-center collapse navbar-collapse shrinked-navbar" id="navbarSupportedContent2">
         <ul class="navbar-nav pr-2">
           <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/PAGINA-DE-SERVICIOS.PHP">
+            <a class="nav-link text-light blackText" href="PAGINA-DE-SERVICIOS.PHP">
               Inicio
             </a></li>
             <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/OTROS-SERV.PHP">
+            <a class="nav-link text-light blackText" href="OTROS-SERV.PHP">
               Servicios
             </a></li>
             <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/NOTICIAS.PHP">
+            <a class="nav-link text-light blackText" href="NOTICIAS.PHP">
               Noticias
             </a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/AGENDA.PHP">
+            <a class="nav-link text-light blackText" href="AGENDA.PHP">
               Citas
             </a></li>
             <li class="nav-item dropdown">
-              <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/NOSOTROS.PHP">
+              <a class="nav-link text-light blackText" href="NOSOTROS.PHP">
                 Nosotros
               </a>
               <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -151,8 +151,8 @@ if (!isset($_SESSION['dev'])) {
 
 
     <!-- CONTENT -->
-<div class="row container-fluid cms py-5 w-100">
-    <div class="justify-content-center contcont card-body h-25 w-100">
+    <div class="row container-fluid cms py-5 w-100">
+    <div class="justify-content-centercontcont card-body h-25 w-100">
         <br>
         <div class="Citas-main">
             <div>
@@ -212,7 +212,7 @@ if (!isset($_SESSION['dev'])) {
                        <!-- <div class="row container-fluid cms py-0" style="height:100px"></div> -->
                         
                         <!-- Tabla de agenda -->
-                    <div class="table-responsive tabladiseño">
+                    <div style="padding-top: 50px;"> 
                     <?php 
                         $id_paciente = $_SESSION['id_paciente'];
                         $username = "root"; 
@@ -223,10 +223,10 @@ if (!isset($_SESSION['dev'])) {
 
                         echo '<table class="table table-bordered"  border="1" cellspacing="2" cellpadding="2"> 
                             <tr> 
-                                <th>     Numero de cita     </th> 
-                                <th>     ID paciente     </th> 
-                                <th>     Hora y fecha de cita     </th> 
-                                <th>     Disponibilidad     </th> 
+                                <th style="text-align: center;">Numero de cita</th> 
+                                <th style="text-align: center;">ID paciente</th> 
+                                <th style="text-align: center;">Hora y fecha de cita</th> 
+                                <th style="text-align: center;">Disponibilidad</th> 
                             </tr>';
 
                         if ($result = $mysqli->query($query)) {
@@ -244,19 +244,22 @@ if (!isset($_SESSION['dev'])) {
                                 </tr>';
                             }
                             $result->free();
-                        } 
+                        }
+                        echo '</table>'; 
                     ?>
                 </div>
                         
             
         </div>
 	</div>
-	<div class="text-center mt-4">
-            <a href="http://psicologia.uanl.mx"><button class="btn btn-primary" >Salir a la Facultad de Psicología</button></a>
+
+	<div class="Citas-main text-center mt-4" style="margin-left: 50px; background-color: transparent;">
+            <a href="http://psicologia.uanl.mx"><button class="btn btn-primary" style="border-color: transparent;">Salir a la Facultad de Psicología</button></a>
         </div>
 </div>
 <br>
 </div> 
+
 
     <!-- CONTENT end-->
         

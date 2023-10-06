@@ -70,23 +70,23 @@ if (isset($_SESSION['dev'])) {
         <div class="justify-content-center collapse navbar-collapse shrinked-navbar" id="navbarSupportedContent2">
         <ul class="navbar-nav pr-2">
           <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/PAGINA-DE-SERVICIOS.PHP">
+            <a class="nav-link text-light blackText" href="PAGINA-DE-SERVICIOS.PHP">
               Inicio
             </a></li>
             <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/OTROS-SERV.PHP">
+            <a class="nav-link text-light blackText" href="OTROS-SERV.PHP">
               Servicios
             </a></li>
             <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/NOTICIAS.PHP">
+            <a class="nav-link text-light blackText" href="NOTICIAS.PHP">
               Noticias
             </a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/AGENDA.PHP">
+            <a class="nav-link text-light blackText" href="AGENDA.PHP">
               Citas
             </a></li>
             <li class="nav-item dropdown">
-              <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/NOSOTROS.PHP">
+              <a class="nav-link text-light blackText" href="NOSOTROS.PHP">
                 Nosotros
               </a>
               <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">

@@ -75,23 +75,23 @@ if (isset($_SESSION['dev'])) {
         <div class="justify-content-center collapse navbar-collapse shrinked-navbar" id="navbarSupportedContent2">
         <ul class="navbar-nav pr-2">
           <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/PAGINA-DE-SERVICIOS.PHP">
+            <a class="nav-link text-light blackText" href="PAGINA-DE-SERVICIOS.PHP">
               Inicio
             </a></li>
             <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/OTROS-SERV.PHP">
+            <a class="nav-link text-light blackText" href="OTROS-SERV.PHP">
               Servicios
             </a></li>
             <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/NOTICIAS.PHP">
+            <a class="nav-link text-light blackText" href="NOTICIAS.PHP">
               Noticias
             </a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link text-light blackText" href="http://localhost/wordpress/wp-content/themes/FaPsiProject/AGENDA.PHP">
+            <a class="nav-link text-light blackText" href="AGENDA.PHP">
               Citas
             </a></li>
             <li class="nav-item dropdown">
-              <a class="nav-link text-light blackText"href="http://localhost/wordpress/wp-content/themes/FaPsiProject/NOSOTROS.PHP">
+              <a class="nav-link text-light blackText"href="NOSOTROS.PHP">
                 Nosotros
               </a>
               <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -124,7 +124,7 @@ if (isset($_SESSION['dev'])) {
           <div class="carousel-item CarouselImg">
             <img class="d-block w-100" src="images/Library-many-books-path_1920x1080.jpg" alt="Second slide">
             <div class="text-white bannerTitle">
-                <h5>Avizos</h5>
+                <h5>Avisos</h5>
                 <p>Informate de los acontecimientos de la USP.</p>
               </div>
             </div>
@@ -148,86 +148,92 @@ if (isset($_SESSION['dev'])) {
     <!-- banner end -->
 
 
-    <!-- CONTENT -->
-    <div class="row container-fluid cms py-5 w-100">
+<!-- CONTENT -->
+<div class="row container-fluid cms py-5 w-100">
 
 
-        <div class="justify-content-centercontcont card-body h-25 w-100">
-            <br>
-            <div class="Citas-main">
-                    <div>
-                        <h3 style="font-size: 50px;">Sistema de Citas para Psiquiatras</h3>
-                    </div>
-                    <div>
-                        <h4>Bienvenido(a) Psiquiatra</h4>
-                        <p>Gestiona las citas de tus pacientes de manera eficiente</p>
-                    </div>
-                    <Div class="cont-citas">
-                        <Div>
-                            <li>Historial de citas y registros de seguimiento de cada paciente</li>
-                        </Div> 
+  <div class="card-body h-25 w-100">
+  <br>
+    <div class="Citas-main">
+      <div>
+      <h3 style="font-size: 50px;">Sistema de Citas para Psicólogos/Psiquiatras</h3>
+      </div>
+      <div>
+      <h4>Bienvenido(a) Psicólogo/Psiquiatra</h4>
+      <p>Gestiona las citas de tus pacientes de manera eficiente, aprueba las citas que te gustaría tomar para llevarlas a cabo en el horario propuesto.</p>
+      </div>
+      <Div class="cont-citas">
+        <Div>
+        <li>Historial de citas y registros de seguimiento de cada paciente</li>
+        </Div> 
 						
 						
-                       
-					   
+        <div style="padding-top: 50px;">
 
-						
-                    </Div>
-                    <br>
+            <?php 
+            $username = "root"; 
+            $password = ""; 
+            $database = "citasfapsi"; 
+            $mysqli = new mysqli("localhost", $username, $password, $database); 
+            $query = "SELECT * FROM horarios";
+                      
 
-					
-                    <div>
-                      <?php 
-$username = "root"; 
-$password = ""; 
-$database = "citasfapsi"; 
-$mysqli = new mysqli("localhost", $username, $password, $database); 
-$query = "SELECT * FROM horarios";
-					  
+            echo '<table border="0" cellspacing="2" cellpadding="2"> 
+                <tr> 
+                <th style="text-align: center;"> <font face="Arial"> Numero de cita </font> </th> 
+                <th style="text-align: center;"> <font face="Arial"> Id psicologo </font> </th>
+                <th style="text-align: center;"> <font face="Arial"> ID paciente </font> </th> 
+                <th style="text-align: center;"> <font face="Arial"> Fechas ocupadas </font> </th> 
+                <th style="text-align: center;"> <font face="Arial"> Disponibilidad </font> </th> 
+                <th style="text-align: center;"> <font face="Arial"> SEGUIMIENTO</font> </th> 
+                </tr>';
 
-                      echo '<table border="0" cellspacing="2" cellpadding="2"> 
-                            <tr> 
-                                <th> <font face="Arial">-----Numero de cita-----</font> </th> 
-                                <th> <font face="Arial">-----Id psicologo-----</font> </th>
-                                <th> <font face="Arial">-----ID paciente-----</font> </th> 
-                                <th> <font face="Arial">-----Fechas ocupadas-----</font> </th> 
-                                <th> <font face="Arial">-----Disponibilidad-----</font> </th> 
-								<th> <font face="Arial"></font> </th> 
-                            </tr>';
+            if ($result = $mysqli->query($query)) {
 
-                      if ($result = $mysqli->query($query)) {
-                          while ($row = $result->fetch_assoc()) {
-                              $field1name = $row["num_cita"];
-							  $field2name = $row["id_psicologo"];
-                              $field3name = $row["id_paciente"];
-                              $field4name = $row["fechayhoras"];
-                              $field5name = $row["isdisponible"]; 
+            while ($row = $result->fetch_assoc()) {
+            $field1name = $row["num_cita"];
+            $field2name = $row["id_psicologo"];
+            $field3name = $row["id_paciente"];
+            $field4name = $row["fechayhoras"];
+            $field5name = $row["isdisponible"]; 
 
-                              echo '<tr> 
-                                        <td>'.$field1name.'</td> 
-										<td>'.$field2name.'</td>  
-                                        <td>'.$field3name.'</td> 
-                                        <td>'.$field4name.'</td> 
-                                        <td>'.$field5name.'</td> 
-										<td><a href="autorizar.php?num_cita='.$field1name.'&id_paciente='.$field3name.'&id_psicologo='.$_SESSION['id_psicologo'].'">Autorizar</a></td>
+            echo '<tr> 
+            <td>'.$field1name.'</td> 
+            <td>'.$field2name.'</td>
+            <td>'.$field3name.'</td> 
+            <td>'.$field4name.'</td> 
+            <td>'.$field5name.'</td> 
+            <td><a href="autorizar.php?num_cita='.$field1name.'&id_paciente='.$field3name.'&id_psicologo='.$_SESSION['id_psicologo'].'">Autorizar</a></td>
+            </tr>';
+
+            }
+
+            $result->free();
+
+            }
+            echo '</table>';
+            ?>
+
+        </div>
+					 
+
+			</Div>
+<br>
+
+	
+
+<div class="contcont card-body h-25" style="background-color: transparent;">
+<a href="http://www.psicologia.uanl.mx" class="btn btn-yellow text-muted font-weight-bold" style="border-color: transparent;">Salir a Facultad de Psicología</a>
+</div>
+
+</div> 
+</div>
 
 
-                                    </tr>';
-                          }
-                          $result->free();
-                      } 
-                      ?>
-                    </div>
+</div>
 
 
-
-    <div class="contcont card-body h-25 w-100" style="background-color: transparent;">
-      <a href="http://www.psicologia.uanl.mx" class="btn btn-yellow text-muted font-weight-bold">Salir a Facultad de Psicología</a>
-  </div>
-
-  </div> 
-
-    <!-- CONTENT end-->
+<!-- CONTENT end-->
 
 
     <div class="row container-fluid cms py-0" style="height:100px"></div>

@@ -168,23 +168,20 @@
           <p>Para agendar, selecciona la fecha en la que deseas que se te atienda, esta información irá a tu terapeuta el cual podrá confirmar si es una fecha ideal. Una vez ambos estén de acuerdo, se agendará en el siguiente calendario; en el caso contrario se regresará una respuesta y las posibles fechas más cercanas a la fecha deseada</p>
         </div>
         <div class="cont-citas">
-          <div>
-            <p>Elija en el calendario de la derecha la fecha que desea agendar su cita y la razón por la que la desea agendar</p>
-          </div>
 
-          <form style="display:inline-block;" action="agendacita.php" method="post">
-            <label for="Horario">Horario a elegir:</label>
+          <form style="display:inline-block;"  method="post">
+            <label for="Horario" name="horario">Horario a elegir:</label>
             <select name="horas" id="horas">
-              <option value="9 AM a 10 AM">9:00AM - 10:00 AM</option>
-              <option value="10 AM a 11 AM">10:00AM - 11:00 AM</option>
-              <option value="11 AM a 12 PM">11:00AM - 12:00 PM</option>
-              <option value="12 PM a 1 PM">12:00PM - 1:00 PM</option>
-              <option value="1 PM a 2 PM">1:00PM - 2:00 PM</option>
-              <option value="2 PM a 3 PM">2:00 PM - 3:00 PM</option>
-              <option value="3 PM a 4 PM">3:00 PM - 4:00 PM</option>
-              <option value="4 PM a 5 PM">4:00 PM - 5:00 PM</option>
-              <option value="5 PM a 6 PM">5:00 PM - 6:00 PM</option>
-              <option value="6 PM a 7 PM">6:00 PM - 7:00 PM</option>
+              <option value="1">9:00AM - 10:00 AM</option>
+              <option value="2">10:00AM - 11:00 AM</option>
+              <option value="3">11:00AM - 12:00 PM</option>
+              <option value="4">12:00PM - 1:00 PM</option>
+              <option value="5">1:00PM - 2:00 PM</option>
+              <option value="6">2:00 PM - 3:00 PM</option>
+              <option value="7">3:00 PM - 4:00 PM</option>
+              <option value="8">4:00 PM - 5:00 PM</option>
+              <option value="9">5:00 PM - 6:00 PM</option>
+              <option value="10">6:00 PM - 7:00 PM</option>
             </select>
             <br>
             <label for="Día">Fecha a elegir:</label>
@@ -204,29 +201,29 @@
               ?>
             </select>
             <br>
-            <label for="Especialista">Especialista:</label>
-            <select>
-              <option value="psic">Psicólogo</option>
-              <option value="psiq">Psiquiatra</option>
+            <label for="Especialista" >Especialista:</label>
+            <select name="especialista" id="especialista">
+              <option value="2">Psicólogo</option>
+              <option value="1">Psiquiatra</option>
             </select>
 
-            <button type="submit" class="font-weight-bold" id="submitagenda" name="submitagenda">Agendar cita</button>
-
-          </form>
-
-          <!-- <div class="row container-fluid cms py-0" style="height:100px"></div> -->
-
-          <!-- Tabla de agenda -->
-          <div style="padding-top: 50px;">
-            <?php
+            <button type="submit" class="font-weight-bold" id="submitagenda" name="submitagenda" formaction="agendacita.php">Agendar cita</button>
 
 
-            $id_paciente = $_SESSION['id_paciente'];
-            $username = "root";
-            $password = "";
-            $database = "citasfapsi";
-            $mysqli = new mysqli("localhost", $username, $password, $database);
-            $query = "SELECT 
+
+            <!-- <div class="row container-fluid cms py-0" style="height:100px"></div> -->
+
+            <!-- Tabla de agenda -->
+            <div style="padding-top: 50px;">
+              <?php
+
+
+              $id_paciente = $_SESSION['id_paciente'];
+              $username = "root";
+              $password = "";
+              $database = "citasfapsi";
+              $mysqli = new mysqli("localhost", $username, $password, $database);
+              $query = "SELECT 
                       p.id_psicologo,
                       p.nombres, 
                       p.apellidos, 
@@ -240,32 +237,32 @@
                       INNER JOIN precios pr
                       ON p.id_precio = pr.id_precio";
 
-            echo '<table border="0" cellspacing="5" cellpadding="5"><tr></tr>';
+              echo '<table border="0" cellspacing="5" cellpadding="5"><tr></tr>';
             if ($result = $mysqli->query($query)) {
-              while ($row = $result->fetch_assoc()) {
-                $field1name = $row["nombres"];
-                $field2name = $row["apellidos"];
-                $field3name = $row["precio_hora"];
-                $field4name = $row["nombre_especializacion"];
-                $valueId = $row["id_psicologo"];
+                while ($row = $result->fetch_assoc()) {
+                  $field1name = $row["nombres"];
+                  $field2name = $row["apellidos"];
+                  $field3name = $row["precio_hora"];
+                  $field4name = $row["nombre_especializacion"];
+                  $valueId = $row["id_psicologo"];
 
-                echo '<tr>
+                  echo '<tr>
                                             <td>' . $field1name . ' hora</td> 
                                             <td>' . $field2name . '</td> 
                                             <td>' . $field3name . '$ x hora </td>
                                             <td>' . $field4name . '</td>
                                             <td> 
-                                                  <button type="submit" class="font-weight-bold" id="consulta_horarios" value =' . $row["id_psicologo"] . 'name="consulta_horarios">Consulta</button>
+                                                  <button type="submit" class="font-weight-bold" id="consulta_horarios" value ='.$row["id_psicologo"].' name="consulta_horarios" formaction="CONSULTAR_HORARIOS.php">Consulta</button>
                                             </td>
 
                   </tr>';
+                }
+                $result->free();
               }
-              $result->free();
-            }
-            echo '</table>';
-            ?>
-          </div>
-
+              echo '</table>';
+              ?>
+            </div>
+          </form>
 
         </div>
       </div>

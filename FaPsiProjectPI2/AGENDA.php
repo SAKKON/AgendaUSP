@@ -61,6 +61,13 @@
                 exit();
               }
 
+              $username = "root";
+              $password = "";
+              $database = "citasfapsi";
+              $mysqli = new mysqli("localhost", $username, $password, $database);
+
+              $query_restart_temp = "UPDATE temporal SET id_disponibilidad = 1";
+              $result = $mysqli->query($query_restart_temp)
               ?>
             </a>
           </form>

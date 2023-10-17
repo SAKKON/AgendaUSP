@@ -46,6 +46,7 @@
 
             <a href="logout.php"><img id="img-perfil" src="images/Perfil.png" alt="">
               <?php
+
               session_start();
 
               if (isset($_SESSION['dev'])) {
@@ -69,18 +70,13 @@
                 $hora = $_POST["horas"];
               }
 
+              
+
               $username = "root";
               $password = "";
               $database = "citasfapsi";
               $mysqli = new mysqli("localhost", $username, $password, $database);
 
-              //Obtener texto de horas
-              $query_horas = "SELECT horario FROM horas WHERE id_hora = $hora";
-              $result_horas = $mysqli->query($query_horas);
-
-              //Obtener texto de especialidad
-              $query_especialidad = "SELECT nombre_especializacion FROM especializaciones WHERE id_especializacion = $especialista";
-              $result_especialidad = $mysqli->query($query_especialidad);
 
               //Obtener nombre del psicologo
               $queryPsicologo = "SELECT nombres FROM psicólogos  WHERE id_psicologo = $id_psicologo";
@@ -89,40 +85,6 @@
               //Obtener todos lo horarios disponibles
               $query_horarios_existentes = "SELECT horario FROM horas";
               $result_horarios_existentes = $mysqli->query($query_horarios_existentes);
-
-              //Obtener las horas de las citas agendadas con la fecha, psicologo, disponibilidad
-              $query_citas = "SELECT tmp1.id_hora, tmp1.horario, tmp2.id_disponibilidad 
-                              FROM ( SELECT h.id_hora, h.horario FROM horas h 
-                              )tmp1 
-                              LEFT JOIN ( 
-                              SELECT h.id_hora, h.horario, citas.id_disponibilidad 
-                              FROM horas h 
-                              INNER JOIN horarios_citas citas 
-                              ON h.id_hora = citas.id_hora 
-                              WHERE citas.id_psicologo = $id_psicologo AND citas.fecha = $fecha 
-                              )tmp2 
-                              ON tmp1.id_hora = tmp2.id_hora;";
-              $result_citas = $mysqli->query($query_citas);
-
-              //Obtener cantidad total de horarios
-              $query_total_horarios = "SELECT * from horas";
-
-              if ($result = $mysqli->query($query_horarios_existentes)) {
-              }
-              // Return the number of rows in result set
-              $rowcount = mysqli_num_rows($result);
-
-
-
-              if ($result_horas->num_rows > 0) {
-                $row_horas = $result_horas->fetch_assoc();
-                $valueHoras = $row_horas["horario"];
-              }
-
-              if ($result_especialidad->num_rows > 0) {
-                $row_especialidad = $result_especialidad->fetch_assoc();
-                $valueEspecialidad = $row_especialidad["nombre_especializacion"];
-              }
 
 
               if ($resultPsicologo->num_rows > 0) {
@@ -236,52 +198,59 @@
       <br>
       <div class="Citas-main">
         <div>
-          <h3 style="font-size: 50px;">Citas</h3>
-        </div>
-        <div>
-          <h4>Agenda tus citas de manera más cómoda:</h4>
-          <p>Para agendar, selecciona la fecha en la que deseas que se te atienda, esta información irá a tu terapeuta el cual podrá confirmar si es una fecha ideal. Una vez ambos estén de acuerdo, se agendará en el siguiente calendario; en el caso contrario se regresará una respuesta y las posibles fechas más cercanas a la fecha deseada</p>
+          <h3 style="font-size: 50px;">Consultar</h3>
         </div>
         <div class="cont-citas">
           <form style="display:inline-block;">
-            <br>
-            <label for="Horario" name="horario">Horario a elegir:</label>
-            <select name="horas" id="horas">
-              <option value=""><?php echo $valueEspecialidad ?></option>
-            </select>
             <br>
             <label for="Día">Fecha a elegir:</label>
             <select name="fecha">
               <option value=""><?php echo $fecha ?></option>
             </select>
-            <br>
-            <label for="Especialista">Especialista:</label>
-            <select name="especialista" id="especialista">
-              <option value=""><?php echo $valueHoras ?></option>
-            </select>
-            <br>
           </form>
           <div class="row container-fluid cms py-5 w-100">
             <div class="justify-content-centercontcont card-body h-25 w-100">
-              <h4><?php echo $valuePsicologo ?></h4>
               <?php
+              $fechaInt = preg_replace('[\D]', '', $fecha);
+              $query_hora_id_ocupada = "SELECT id_hora FROM horarios_citas WHERE int_fecha = $fechaInt AND id_disponibilidad = 2";
+
+              if ($result = $mysqli->query($query_hora_id_ocupada)) {
+                while ($row = $result->fetch_assoc()) {
+
+                  $id_hora = $row["id_hora"];
+                  $query_temp = "UPDATE temporal SET id_disponibilidad = 2 WHERE id_hora = $id_hora ";
+                  $mysqli->query($query_temp);
+
+                }
+                $result->free();
+              }
+
+              $query_horas_ocupadas = "SELECT horario, id_disponibilidad FROM temporal";
+
+              echo '<table border="0" cellspacing="5" cellpadding="5"><tr></tr>';
+              if ($result = $mysqli->query($query_horas_ocupadas)) {
+                while ($row = $result->fetch_assoc()) {
+
+                  $field1name = $row["horario"];
+                  $field2name = $row["id_disponibilidad"];
+                  if ($field2name == 2) {
+                    $value = "OCUPADO";
+                  } else {
+                    $value = "LIBRE";
+                  }
 
 
+                  echo '<tr>
+                                            <td>' . $field1name . '</td>
+                                            <td>' . $value . '</td>  
+                       </tr>';
+                }
+                $result->free();
+              }
 
+              echo '</table>';
               ?>
               <br>
-
-              <table cellspacing="5" cellpadding="5">
-
-
-                <tr>
-                  <td>hora hora</td>
-                  <td>estatus estatus</td>
-
-                </tr>
-              </table>
-
-
             </div>
           </div>
         </div>

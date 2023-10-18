@@ -44,14 +44,23 @@
                         
                             <a href="logout.php"><img id="img-perfil" src="images/Perfil.png" alt="">
                           <?php
-session_start();
+                              session_start();
 
-if (isset($_SESSION['dev'])) {
-    $user = $_SESSION['dev'];
-    echo $user;
-} else {
-    echo "Inicia sesion";
-}
+                              if (isset($_SESSION['dev'])) {
+                                  $user = $_SESSION['dev'];
+                                  echo $user;
+                              } else {
+                                  echo "Inicia sesion";
+                              }
+
+                              function getDateString($date) {
+                                $date = strval($date);
+                                $dia = substr($date, 0, 2);
+                                $mes = substr($date, 2, 2);
+                                $ano = substr($date, 4, 8);
+                                $newDate = "$dia-$mes-$ano";
+                                return $newDate;
+                              }
 
 
 
@@ -175,15 +184,22 @@ if (isset($_SESSION['dev'])) {
             $password = ""; 
             $database = "citasfapsi"; 
             $mysqli = new mysqli("localhost", $username, $password, $database); 
-            $query = "SELECT * FROM horarios";
+            $query = "SELECT hc.id_cita, p.nombres, hc.id_psicologo, d.dia, h.horario ,hc.int_fecha, hc.id_disponibilidad 
+            FROM horarios_citas hc
+            INNER JOIN dia_de_la_semana d
+            ON hc.id_dia = d.id_dia
+            INNER JOIN pacientes p
+            ON hc.id_paciente = p.id_paciente
+            INNER JOIN horas h
+            ON hc.id_hora = h.id_hora";
                       
 
             echo '<table border="0" cellspacing="2" cellpadding="2"> 
                 <tr> 
-                <th style="text-align: center;"> <font face="Arial"> Numero de cita </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Id psicologo </font> </th>
-                <th style="text-align: center;"> <font face="Arial"> ID paciente </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Fechas ocupadas </font> </th> 
+                <th style="text-align: center;"> <font face="Arial"> Nombre </font> </th> 
+                <th style="text-align: center;"> <font face="Arial"> Dia </font> </th>
+                <th style="text-align: center;"> <font face="Arial"> Horario </font> </th> 
+                <th style="text-align: center;"> <font face="Arial"> Fecha </font> </th> 
                 <th style="text-align: center;"> <font face="Arial"> Disponibilidad </font> </th> 
                 <th style="text-align: center;"> <font face="Arial"> SEGUIMIENTO</font> </th> 
                 </tr>';
@@ -191,19 +207,31 @@ if (isset($_SESSION['dev'])) {
             if ($result = $mysqli->query($query)) {
 
             while ($row = $result->fetch_assoc()) {
-            $field1name = $row["num_cita"];
-            $field2name = $row["id_psicologo"];
-            $field3name = $row["id_paciente"];
-            $field4name = $row["fechayhoras"];
-            $field5name = $row["isdisponible"]; 
+            $field1name = $row["nombres"];
+            $field2name = $row["dia"];
+            $field3name = $row["horario"];
+            $field4name = $row["int_fecha"];
+            $field5name = $row["id_disponibilidad"];
+            $id_cita = $row["id_cita"]; 
+
+            if($field5name == 1) {
+              $dispo = "PENDIENTE";
+            }
+            if($field5name == 2) {
+              $dispo = "AGENDADO";
+            }
+
+            $newDateString = getDateString($field4name);
+
+ 
 
             echo '<tr> 
             <td>'.$field1name.'</td> 
             <td>'.$field2name.'</td>
             <td>'.$field3name.'</td> 
-            <td>'.$field4name.'</td> 
-            <td>'.$field5name.'</td> 
-            <td><a href="autorizar.php?num_cita='.$field1name.'&id_paciente='.$field3name.'&id_psicologo='.$_SESSION['id_psicologo'].'">Autorizar</a></td>
+            <td>'.$newDateString.'</td> 
+            <td>'.$dispo.'</td> 
+            <td><a href="autorizar.php?num_cita='.$id_cita.'&id_paciente='.$field3name.'&id_psicologo='.$_SESSION['id_psicologo'].'">Autorizar</a></td>
             </tr>';
 
             }

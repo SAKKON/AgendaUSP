@@ -194,9 +194,11 @@
             <label for="Día">Fecha a elegir:</label>
             <select name="fecha">
               <?php
+
+
               // Obtener la fecha actual
               $fechaActual = new DateTime();
-
+              $dia = $fechaActual->format( 'N' );
               // Mostrar las fechas desde hoy hasta 4 días después
               for ($i = 0; $i <= 7; $i++) {
                 $fecha = $fechaActual->format('d-m-Y');

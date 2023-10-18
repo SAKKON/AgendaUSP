@@ -18,7 +18,7 @@ if (isset($_GET['id_paciente']) && isset($_GET['id_psicologo']) && isset($_GET['
     }
 
     // Actualizar el campo "id_paciente" en la tabla "horarios" usando el número de cita
-     $updateQuery = "UPDATE horarios SET id_psicologo = '$id_psicologo', isdisponible = 'Aprobada' WHERE num_cita = '$num_cita'";
+     $updateQuery = "UPDATE horarios_citas SET id_psicologo = '$id_psicologo', id_disponibilidad = 2 WHERE id_cita = '$num_cita'";
     if ($mysqli->query($updateQuery)) {
 		echo  '<script> alert("La autorización se ha guardado correctamente en la base de datos."); window.location = "AGENDA-PSI.php" </script>';
  

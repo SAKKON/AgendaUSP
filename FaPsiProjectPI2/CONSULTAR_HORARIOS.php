@@ -68,9 +68,10 @@
                 $id_psicologo = $_POST["consulta_horarios"];
                 $especialista = $_POST["especialista"];
                 $hora = $_POST["horas"];
+                $dia_semana = $_POST["dia_de_semana"];
               }
 
-              
+              echo ''.var_dump($dia_semana).'';
 
               $username = "root";
               $password = "";

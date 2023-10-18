@@ -270,6 +270,9 @@
               }
               echo '</table>';
               ?>
+              <br>
+                <button type="submit" class="font-weight-bold" id="mis_citas" value ='.$user.' name="mis_citas" formaction="MIS_CITAS.php">Mis citas</button>
+
             </div>
           </form>
 

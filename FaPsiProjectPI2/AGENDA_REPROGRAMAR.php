@@ -61,19 +61,15 @@
                 exit();
               }
 
+              
+
               $username = "root";
               $password = "";
               $database = "citasfapsi";
               $mysqli = new mysqli("localhost", $username, $password, $database);
+              $query_restart_temp = "UPDATE temporal SET id_disponibilidad = 1";
+              $result = $mysqli->query($query_restart_temp);
 
-              function getDateString($date) {
-                $date = strval($date);
-                $dia = substr($date, 0, 2);
-                $mes = substr($date, 2, 2);
-                $ano = substr($date, 4, 8);
-                $newDate = "$dia-$mes-$ano";
-                return $newDate;
-              }
 
               ?>
             </a>
@@ -175,96 +171,131 @@
       <br>
       <div class="Citas-main">
         <div>
-          <h3 style="font-size: 50px;">Mis Citas</h3>
+          <h3 style="font-size: 50px;">Reagendar mi Cita</h3>
         </div>
-      <form style="display:inline-block;"  method="post">
+        <div>
+          <h4>Agenda tus citas de manera más cómoda:</h4>
+          <p>Para agendar, selecciona la fecha en la que deseas que se te atienda, esta información irá a tu terapeuta el cual podrá confirmar si es una fecha ideal. Una vez ambos estén de acuerdo, se agendará en el siguiente calendario; en el caso contrario se regresará una respuesta y las posibles fechas más cercanas a la fecha deseada</p>
+        </div>
+
+        <div class="cont-citas">
+
+          <form style="display:inline-block;"  method="post">
+
+          <button type="submit" class="font-weight-bold" formaction="MIS_CITAS.php">Regresar</button>
+<br>
+<br>
+
+            <label for="Horario" name="horario">Horario a elegir:</label>
+            <select name="horas" id="horas">
+              <option value="1">9:00AM - 10:00 AM</option>
+              <option value="2">10:00AM - 11:00 AM</option>
+              <option value="3">11:00AM - 12:00 PM</option>
+              <option value="4">12:00PM - 1:00 PM</option>
+              <option value="5">1:00PM - 2:00 PM</option>
+              <option value="6">2:00 PM - 3:00 PM</option>
+              <option value="7">3:00 PM - 4:00 PM</option>
+              <option value="8">4:00 PM - 5:00 PM</option>
+              <option value="9">5:00 PM - 6:00 PM</option>
+              <option value="10">6:00 PM - 7:00 PM</option>
+            </select>
+            <br>
+            <label for="Día">Fecha a elegir:</label>
+            <select name="fecha">
+              <?php
+
+              
+              // Obtener la fecha actual
+              $fechaActual = new DateTime();
+              $dia = $fechaActual->format( 'N' );
+              // Mostrar las fechas desde hoy hasta 4 días después
+              for ($i = 0; $i <= 7; $i++) {
+                $fecha = $fechaActual->format('d-m-Y');
+                echo '<option value="' . $fecha . '">' . $fecha . '</option>';
+
+                // Añadir un día a la fecha actual
+                $fechaActual->add(new DateInterval('P1D'));
+              }
+              ?>
+            </select>
+            <br>
+            <label for="Especialista" >Especialista:</label>
+            <select name="especialista" id="especialista">
+              <option value="2">Psicólogo</option>
+              <option value="1">Psiquiatra</option>
+            </select>
+
+
+            <button type="submit"  id="submitagenda" name="submitagenda" formaction="reprogramarcita.php">Agendar cita</button>
+
+
+
             <!-- <div class="row container-fluid cms py-0" style="height:100px"></div> -->
 
             <!-- Tabla de agenda -->
             <div style="padding-top: 50px;">
               <?php
-              
-                $id_paciente = $_SESSION['id_paciente'];
-                $username = "root";
-                $password = "";
-                $database = "citasfapsi";
-                $mysqli = new mysqli("localhost", $username, $password, $database);
-                $query = "SELECT hc.id_cita, ps.nombres, h.horario, d.dia, hc.int_fecha, hc.id_disponibilidad 
-                FROM horarios_citas hc 
-                LEFT JOIN psicólogos ps
-                ON hc.id_psicologo = ps.id_psicologo
-                INNER JOIN horas h
-                ON hc.id_hora = h.id_hora 
-                INNER JOIN dia_de_la_semana d
-                ON hc.id_dia = d.id_dia
-                WHERE id_paciente = $id_paciente";
+                if (isset($_POST['reprogramar'])) {
+                  $id_cita = $_POST['reprogramar'];
+                } 
 
-              
+              echo '<input type="hidden" id="cita" class="cita" name="cita" value='.$id_cita.' ></input>';
 
-                echo '<table border="0" cellspacing="2" cellpadding="2"> 
-                <tr> 
-                <th style="text-align: center;"> <font face="Arial"> Nombre </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Dia </font> </th>
-                <th style="text-align: center;"> <font face="Arial"> Horario </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Fecha </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Disponibilidad </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> PAGO</font> </th>
-                <th style="text-align: center;"> <font face="Arial"> REPROGRAMAR</font> </th> 
- 
-                </tr>';
+              $id_paciente = $_SESSION['id_paciente'];
+              $username = "root";
+              $password = "";
+              $database = "citasfapsi";
+              $mysqli = new mysqli("localhost", $username, $password, $database);
+              $query = "SELECT 
+                      p.id_psicologo,
+                      p.nombres, 
+                      p.apellidos, 
+                      p.id_precio, 
+                      p.id_especializacion,
+                      e.nombre_especializacion, 
+                      pr.precio_hora
+                      FROM psicólogos p 
+                      INNER JOIN especializaciones e 
+                      ON p.id_especializacion = e.id_especializacion
+                      INNER JOIN precios pr
+                      ON p.id_precio = pr.id_precio";
 
-                if ($result = $mysqli->query($query)) {
-
+              echo '<table border="0" cellspacing="5" cellpadding="5"><tr></tr>';
+            if ($result = $mysqli->query($query)) {
                 while ($row = $result->fetch_assoc()) {
-                $field1name = $row["nombres"];
-                $field2name = $row["dia"];
-                $field3name = $row["horario"];
-                $field4name = $row["int_fecha"];
-                $field5name = $row["id_disponibilidad"];
-                $id_cita = $row["id_cita"];
+                  $field1name = $row["nombres"];
+                  $field2name = $row["apellidos"];
+                  $field3name = $row["precio_hora"];
+                  $field4name = $row["nombre_especializacion"];
+                  $valueId = $row["id_psicologo"];
 
-                if($field1name == NULL){
-                    $field1name = "ESPERA";
+                  echo '<tr>
+                                            <td>' . $field1name . ' </td> 
+                                            <td>' . $field2name . '</td> 
+                                            <td>' . $field3name . '$ x hora </td>
+                                            <td>' . $field4name . '</td>
+                                            <td> 
+                                                  <button type="submit" class="font-weight-bold" id="consulta_horarios" value ='.$row["id_psicologo"].' name="consulta_horarios" formaction="CONSULTAR_HORARIOS_REPROGRAMAR.php">Consulta</button>
+                                            </td>
+
+                  </tr>';
                 }
+                $result->free();
+              }
+              echo '</table>';
+              echo '<button type="submit" class="font-weight-bold" id="cancelar" value ='.$id_cita.' name="cancelar" formaction="cancelar.php">CANCELAR</button>';
 
-                if($field5name == 1) {
-                $dispo = "PENDIENTE";
-                }
-                if($field5name == 2) {
-                $dispo = "AGENDADO";
-                }
-
-
-
-                $newDateString = getDateString($field4name);
-                echo '<tr> 
-            <td>'.$field1name.'</td> 
-            <td>'.$field2name.'</td>
-            <td>'.$field3name.'</td> 
-            <td>'.$newDateString.'</td> 
-            <td>'.$dispo.'</td>
-            <td><a href="pagoLinea.php">LINEA</a><a href="pagoPresencial.php">     PRESENCIAL</a></td>
-            <td><button type="submit" class="font-weight-bold" id="reprogramar" value ='.$row["id_cita"].' name="reprogramar" formaction="AGENDA_REPROGRAMAR.php">Cambiar</button>
-            </td>
-
-            </tr>';
-
-            }
-
-            $result->free();
-
-            }
-            echo '</table>';
-            ?>
-              <br>
+              ?>
 
             </div>
-            <button type="submit" formaction="AGENDA.php">Regresar</button>
-
           </form>
+
         </div>
       </div>
 
+      <div class="Citas-main text-center mt-4" style="margin-left: 50px; background-color: transparent;">
+        <a href="http://psicologia.uanl.mx"><button class="btn btn-primary" style="border-color: transparent;">Salir a la Facultad de Psicología</button></a>
+      </div>
     </div>
     <br>
   </div>

@@ -46,6 +46,7 @@
 
             <a href="logout.php"><img id="img-perfil" src="images/Perfil.png" alt="">
               <?php
+
               session_start();
 
               if (isset($_SESSION['dev'])) {
@@ -61,19 +62,39 @@
                 exit();
               }
 
+              if (isset($_POST["consulta_horarios"])) {
+
+                $fecha = $_POST["fecha"];
+                $id_psicologo = $_POST["consulta_horarios"];
+                $especialista = $_POST["especialista"];
+                $hora = $_POST["horas"];
+              }
+
               $username = "root";
               $password = "";
               $database = "citasfapsi";
               $mysqli = new mysqli("localhost", $username, $password, $database);
 
-              function getDateString($date) {
-                $date = strval($date);
-                $dia = substr($date, 0, 2);
-                $mes = substr($date, 2, 2);
-                $ano = substr($date, 4, 8);
-                $newDate = "$dia-$mes-$ano";
-                return $newDate;
+
+              //Obtener nombre del psicologo
+              $queryPsicologo = "SELECT nombres FROM psicólogos  WHERE id_psicologo = $id_psicologo";
+              $resultPsicologo = $mysqli->query($queryPsicologo);
+
+              //Obtener todos lo horarios disponibles
+              $query_horarios_existentes = "SELECT horario FROM horas";
+              $result_horarios_existentes = $mysqli->query($query_horarios_existentes);
+
+
+              if ($resultPsicologo->num_rows > 0) {
+                $rowPsicologo = $resultPsicologo->fetch_assoc();
+                $valuePsicologo = $rowPsicologo["nombres"];
               }
+
+              if ($result_horarios_existentes->num_rows > 0) {
+                $row_horarios_existentes = $result_horarios_existentes->fetch_assoc();
+                $value_horarios_existentes = $row_horarios_existentes["horario"];
+              }
+
 
               ?>
             </a>
@@ -175,110 +196,80 @@
       <br>
       <div class="Citas-main">
         <div>
-          <h3 style="font-size: 50px;">Mis Citas</h3>
+          <h3 style="font-size: 50px;">Consultar</h3>
         </div>
-      <form style="display:inline-block;"  method="post">
-            <!-- <div class="row container-fluid cms py-0" style="height:100px"></div> -->
-
-            <!-- Tabla de agenda -->
-            <div style="padding-top: 50px;">
+        <div class="cont-citas">
+          <form style="display:inline-block;">
+            <br>
+            <label for="Día">Fecha a elegir:</label>
+            <select name="fecha">
+              <option value=""><?php echo $fecha ?></option>
+            </select>
+          
+          <div class="row container-fluid cms py-5 w-100">
+            <div class="justify-content-centercontcont card-body h-25 w-100">
               <?php
-              
-                $id_paciente = $_SESSION['id_paciente'];
-                $username = "root";
-                $password = "";
-                $database = "citasfapsi";
-                $mysqli = new mysqli("localhost", $username, $password, $database);
-                $query = "SELECT hc.id_cita, ps.nombres, h.horario, d.dia, hc.int_fecha, hc.id_disponibilidad 
-                FROM horarios_citas hc 
-                LEFT JOIN psicólogos ps
-                ON hc.id_psicologo = ps.id_psicologo
-                INNER JOIN horas h
-                ON hc.id_hora = h.id_hora 
-                INNER JOIN dia_de_la_semana d
-                ON hc.id_dia = d.id_dia
-                WHERE id_paciente = $id_paciente";
+              $fechaInt = preg_replace('[\D]', '', $fecha);
+              $query_hora_id_ocupada = "SELECT id_hora FROM horarios_citas WHERE int_fecha = $fechaInt AND id_disponibilidad = 2";
 
-              
-
-                echo '<table border="0" cellspacing="2" cellpadding="2"> 
-                <tr> 
-                <th style="text-align: center;"> <font face="Arial"> Nombre </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Dia </font> </th>
-                <th style="text-align: center;"> <font face="Arial"> Horario </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Fecha </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Disponibilidad </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> PAGO</font> </th>
-                <th style="text-align: center;"> <font face="Arial"> REPROGRAMAR</font> </th> 
- 
-                </tr>';
-
-                if ($result = $mysqli->query($query)) {
-
+              if ($result = $mysqli->query($query_hora_id_ocupada)) {
                 while ($row = $result->fetch_assoc()) {
-                $field1name = $row["nombres"];
-                $field2name = $row["dia"];
-                $field3name = $row["horario"];
-                $field4name = $row["int_fecha"];
-                $field5name = $row["id_disponibilidad"];
-                $id_cita = $row["id_cita"];
 
-                if($field1name == NULL){
-                    $field1name = "ESPERA";
+                  $id_hora = $row["id_hora"];
+                  $query_temp = "UPDATE temporal SET id_disponibilidad = 2 WHERE id_hora = $id_hora ";
+                  $mysqli->query($query_temp);
+
                 }
+                $result->free();
+              }
 
-                if($field5name == 1) {
-                $dispo = "PENDIENTE";
+              $query_horas_ocupadas = "SELECT horario, id_disponibilidad FROM temporal";
+
+              echo '<table border="0" cellspacing="5" cellpadding="5"><tr></tr>';
+              if ($result = $mysqli->query($query_horas_ocupadas)) {
+                while ($row = $result->fetch_assoc()) {
+
+                  $field1name = $row["horario"];
+                  $field2name = $row["id_disponibilidad"];
+                  if ($field2name == 2) {
+                    $value = "OCUPADO";
+                  } else {
+                    $value = "LIBRE";
+                  }
+
+
+                  echo '<tr>
+                                            <td>' . $field1name . '</td>
+                                            <td>' . $value . '</td>  
+                       </tr>';
                 }
-                if($field5name == 2) {
-                $dispo = "AGENDADO";
-                }
+                $result->free();
+              }
 
-
-
-                $newDateString = getDateString($field4name);
-                echo '<tr> 
-            <td>'.$field1name.'</td> 
-            <td>'.$field2name.'</td>
-            <td>'.$field3name.'</td> 
-            <td>'.$newDateString.'</td> 
-            <td>'.$dispo.'</td>
-            <td><a href="pagoLinea.php">LINEA</a><a href="pagoPresencial.php">     PRESENCIAL</a></td>
-            <td><button type="submit" class="font-weight-bold" id="reprogramar" value ='.$row["id_cita"].' name="reprogramar" formaction="AGENDA_REPROGRAMAR.php">Cambiar</button>
-            </td>
-
-            </tr>';
-
-            }
-
-            $result->free();
-
-            }
-            echo '</table>';
-            ?>
+              echo '</table>';
+              
+              ?>
               <br>
-
+              <button type="submit" class="font-weight-bold" formaction="AGENDA_REPROGRAMAR.php">Regresar</button>
+            </form>
             </div>
-            <button type="submit" formaction="AGENDA.php">Regresar</button>
-
-          </form>
+          </div>
         </div>
       </div>
+    </div>
+    <div style="padding-top: 50px;">
+
 
     </div>
-    <br>
-  </div>
+    <!-- CONTENT end-->
 
 
-  <!-- CONTENT end-->
-
-
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/agenda.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/agenda.js"></script>
 </body>
 
 </html>

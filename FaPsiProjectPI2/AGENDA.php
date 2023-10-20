@@ -225,6 +225,14 @@
             <!-- Tabla de agenda -->
             <div style="padding-top: 50px;">
               <?php
+               function getDateString($date) {
+                $date = strval($date);
+                $dia = substr($date, 0, 2);
+                $mes = substr($date, 2, 2);
+                $ano = substr($date, 4, 8);
+                $newDate = "$dia-$mes-$ano";
+                return $newDate;
+              }
 
 
               $id_paciente = $_SESSION['id_paciente'];
@@ -269,9 +277,10 @@
                 $result->free();
               }
               echo '</table>';
+              echo '<button type="submit" class="font-weight-bold" id="mis_citas" value ='.$user.' name="mis_citas" formaction="MIS_CITAS.php">Mis citas</button>';
+
               ?>
               <br>
-                <button type="submit" class="font-weight-bold" id="mis_citas" value ='.$user.' name="mis_citas" formaction="MIS_CITAS.php">Mis citas</button>
 
             </div>
           </form>

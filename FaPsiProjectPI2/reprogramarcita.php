@@ -28,7 +28,6 @@ if (isset($_POST["submitagenda"])) {
 
 
     session_start();
-    $id_paciente = 31;
 
     $sqlwrite = "UPDATE horarios_citas 
     SET id_hora = $horas, id_disponibilidad = 1, int_fecha = $fechaInt, id_dia = $dia_semana, id_psicologo = 0

@@ -221,6 +221,10 @@
               $dispo = "AGENDADO";
             }
 
+            if($field5name == 3) {
+              $dispo = "AGENDADO SEGUIMIENTO";
+            }
+
             $newDateString = getDateString($field4name);
 
  
@@ -231,8 +235,16 @@
             <td>'.$field3name.'</td> 
             <td>'.$newDateString.'</td> 
             <td>'.$dispo.'</td> 
-            <td><a href="autorizar.php?num_cita='.$id_cita.'&id_paciente='.$field3name.'&id_psicologo='.$_SESSION['id_psicologo'].'">Autorizar</a></td>
-            </tr>';
+            <td><a href="autorizar.php?num_cita='.$id_cita.'&id_paciente='.$field3name.'&id_psicologo='.$_SESSION['id_psicologo'].'">Autorizar</a></td>';
+            if($field5name == 2) {
+              echo '<td><a href="citaseguimiento.php?num_cita='.$id_cita.'&id_paciente='.$field3name.'&id_psicologo='.$_SESSION['id_psicologo'].'&fecha='.$row["int_fecha"].'">Agendar Cita Seguimiento</a></td>';
+
+            }
+            if($field5name == 3) {
+              echo '<td><a href="citaseguimiento.php?num_cita='.$id_cita.'&id_paciente='.$field3name.'&id_psicologo='.$_SESSION['id_psicologo'].'&fecha='.$row["int_fecha"].'">Agendar Cita Seguimiento</a></td>';
+
+            }
+            echo '</tr>';
 
             }
 

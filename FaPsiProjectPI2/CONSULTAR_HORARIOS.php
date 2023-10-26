@@ -201,13 +201,11 @@
         <div class="cont-citas">
           <form style="display:inline-block;">
             <br>
-            <label for="Día">Fecha a elegir:</label>
-            <select name="fecha">
-              <option value=""><?php echo $fecha ?></option>
-            </select>
+            <label for="Día">Fecha a revisar: <b><i><?php echo $fecha ?></i></b></label>
+            
           </form>
-          <div class="row container-fluid cms py-5 w-100">
-            <div class="justify-content-centercontcont card-body h-25 w-100">
+          
+            <div style="padding-top: 50px;">
               <?php
               $fechaInt = preg_replace('[\D]', '', $fecha);
               $query_hora_id_ocupada = "SELECT id_hora FROM horarios_citas WHERE int_fecha = $fechaInt AND id_disponibilidad = 2";
@@ -239,8 +237,8 @@
 
 
                   echo '<tr>
-                                            <td>' . $field1name . '</td>
-                                            <td>' . $value . '</td>  
+                            <td style="width: 200px;">' . $field1name . '</td>
+                            <td style="width: 200px;">' . $value . '</td>  
                        </tr>';
                 }
                 $result->free();
@@ -252,12 +250,14 @@
             </div>
           </div>
         </div>
+
+	<div class="Citas-main text-center mt-4" style="margin-left: 100px; background-color: transparent;">
+        <a href="AGENDA.php"><button class="btn btn-primary" style="border-color: transparent;">Regresar a página de Citas</button></a>
+    </div>
       </div>
     </div>
-    <div style="padding-top: 50px;">
-
-
-    </div>
+    
+    <div style="padding-top: 50px;"> </div>
     <!-- CONTENT end-->
 
 

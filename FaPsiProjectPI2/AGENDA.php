@@ -164,11 +164,13 @@
 
   <!-- CONTENT -->
   <div class="row container-fluid cms py-5 w-100">
-    <div class="justify-content-centercontcont card-body h-25 w-100">
+    <div class="justify-content-center card-body h-25 w-100">
       <br>
-      <div class="Citas-main">
+      
+      <!-- CUADRO IZQUIERDO -->
+      <div class="Citas-main" style="margin-bottom: 50px;">
         <div>
-          <h3 style="font-size: 50px;">Citas</h3>
+          <h3 style="font-size: 50px;">Agenda cita</h3>
         </div>
         <div>
           <h4>Agenda tus citas de manera más cómoda:</h4>
@@ -254,7 +256,13 @@
                       INNER JOIN precios pr
                       ON p.id_precio = pr.id_precio";
 
-              echo '<table border="0" cellspacing="5" cellpadding="5"><tr></tr>';
+              echo '<table border="0" cellspacing="5" cellpadding="5"><tr>
+                    <td style="font-size: 20px;">Nombres</td> 
+                    <td style="font-size: 20px;">Apellidos</td> 
+                    <td style="font-size: 20px;">Costo de Sesión</td>
+                    <td style="font-size: 20px;">Especialidad</td>
+                    <td style="font-size: 20px;"></td>
+                    </tr>';
             if ($result = $mysqli->query($query)) {
                 while ($row = $result->fetch_assoc()) {
                   $field1name = $row["nombres"];
@@ -264,20 +272,18 @@
                   $valueId = $row["id_psicologo"];
 
                   echo '<tr>
-                                            <td>' . $field1name . ' hora</td> 
-                                            <td>' . $field2name . '</td> 
-                                            <td>' . $field3name . '$ x hora </td>
-                                            <td>' . $field4name . '</td>
-                                            <td> 
-                                                  <button type="submit" class="font-weight-bold" id="consulta_horarios" value ='.$row["id_psicologo"].' name="consulta_horarios" formaction="CONSULTAR_HORARIOS.php">Consulta</button>
-                                            </td>
-
-                  </tr>';
+                            <td>' . $field1name . '</td> 
+                            <td>' . $field2name . '</td> 
+                            <td>' . $field3name . '$ x hora </td>
+                            <td>' . $field4name . '</td>
+                            <td> 
+                                  <button style="width: auto;" type="submit" class="font-weight-bold" id="consulta_horarios" value ='.$row["id_psicologo"].' name="consulta_horarios" formaction="CONSULTAR_HORARIOS.php">Consulta disponibilidad aqu&iacute</button>
+                            </td>
+                        </tr>';
                 }
                 $result->free();
               }
               echo '</table>';
-              echo '<button type="submit" class="font-weight-bold" id="mis_citas" value ='.$user.' name="mis_citas" formaction="MIS_CITAS.php">Mis citas</button>';
 
               ?>
               <br>
@@ -288,9 +294,33 @@
         </div>
       </div>
 
-      <div class="Citas-main text-center mt-4" style="margin-left: 50px; background-color: transparent;">
+	<!-- CUADRO DERECHO -->
+      <div style="width: 500px; margin-left: .5vw;" class="Citas-main text-center" >
+        <div>
+        <div>
+          <h3 style="font-size: 50px;">Mis citas</h3>
+        </div>
+        <div>
+          <h4>Revisa tus citas realizadas anteriormente:</h4>
+          <p>Para revisar tu agenda, selecciona a continuación el botón, en donde se desplegará una tabla con tus citas y su respectiva información.</p>
+        </div>
+        <div style="align-content: center;" class="cont-citas">
+        	<form style="width: 200px;">
+			<?php 
+			
+			echo '<button type="submit" class="font-weight-bold" id="mis_citas" value ='.$user.' name="mis_citas" formaction="MIS_CITAS.php">Mis citas</button>';
+			
+			?>
+			</form>
+              <br>
+        </div>
+      </div>
+      </div>
+      
+      <div class="Citas-main text-center mt-4" style="margin-left: 100px; background-color: transparent;">
         <a href="http://psicologia.uanl.mx"><button class="btn btn-primary" style="border-color: transparent;">Salir a la Facultad de Psicología</button></a>
       </div>
+      
     </div>
     <br>
   </div>

@@ -170,8 +170,8 @@
 
 
   <!-- CONTENT -->
-  <div class="row container-fluid cms py-5 w-100">
-    <div class="justify-content-centercontcont card-body h-25 w-100">
+  <div class="row container-fluid cmsPago py-5 w-100">
+    <div class="justify-content-center contcont card-body h-25">
       <br>
       <div class="Citas-main">
         <div>
@@ -182,6 +182,12 @@
 
             <!-- Tabla de agenda -->
             <div style="padding-top: 50px;">
+            <script>
+                function togglePago() {
+                    var menu = document.getElementById("displayPago");
+                    menu.classList.toggle("show");
+                }
+            </script>
               <?php
               
                 $id_paciente = $_SESSION['id_paciente'];
@@ -203,13 +209,13 @@
 
                 echo '<table border="0" cellspacing="2" cellpadding="2"> 
                 <tr> 
-                <th style="text-align: center;"> <font face="Arial"> Nombre </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Dia </font> </th>
-                <th style="text-align: center;"> <font face="Arial"> Horario </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Fecha </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> Disponibilidad </font> </th> 
-                <th style="text-align: center;"> <font face="Arial"> PAGO</font> </th>
-                <th style="text-align: center;"> <font face="Arial"> REPROGRAMAR</font> </th> 
+                <th style="text-align: center; font-size: 25px;"> <font face="Arial"> Nombre </font> </th> 
+                <th style="text-align: center; font-size: 25px;"> <font face="Arial"> Dia </font> </th>
+                <th style="text-align: center; font-size: 25px;"> <font face="Arial"> Horario </font> </th> 
+                <th style="text-align: center; font-size: 25px;"> <font face="Arial"> Fecha </font> </th> 
+                <th style="text-align: center; font-size: 25px;"> <font face="Arial"> Disponibilidad </font> </th> 
+                <th style="text-align: center; font-size: 25px;"> <font face="Arial"> PAGO</font> </th>
+                <th style="text-align: center; font-size: 25px;"> <font face="Arial"> REPROGRAMAR</font> </th> 
  
                 </tr>';
 
@@ -243,7 +249,7 @@
             <td>'.$field3name.'</td> 
             <td>'.$newDateString.'</td> 
             <td>'.$dispo.'</td>
-            <td><a href="pagoLinea.php">LINEA</a><a href="pagoPresencial.php">     PRESENCIAL</a></td>
+            <td><a style="cursor: pointer;" onclick="togglePago()">LINEA</a><a href="pagoPresencial.php">     PRESENCIAL</a></td>
             <td><button type="submit" class="font-weight-bold" id="reprogramar" value ='.$row["id_cita"].' name="reprogramar" formaction="AGENDA_REPROGRAMAR.php">Cambiar</button>
             </td>
 
@@ -263,11 +269,18 @@
 
           </form>
         </div>
+	</div>
+      <div id="displayPago" class="showPago">
+		<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+		<stripe-pricing-table pricing-table-id="prctbl_1O5jKQLcbdChabAXqGVnEYMt"
+		publishable-key="pk_test_51Nxa8nLcbdChabAXc7ZgVkWRx0orif14wBIxgzEDrjyiZ4tzh9f50lZdUMjl1SEkh3a5L28UMVSe7MRXjfWx1eOy00hGfB9hQ7">
+		</stripe-pricing-table>
       </div>
-
+  		<br>
     </div>
-    <br>
-  </div>
+  
+	
+
 
 
   <!-- CONTENT end-->

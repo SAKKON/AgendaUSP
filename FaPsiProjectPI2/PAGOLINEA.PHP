@@ -166,166 +166,24 @@
   <div class="row container-fluid cms py-5 w-100">
     <div class="justify-content-center card-body h-25 w-100">
       <br>
-      
-      <!-- CUADRO IZQUIERDO -->
-      <div class="Citas-main" style="margin-bottom: 50px;">
-        <div>
-          <h3 style="font-size: 50px;">Agenda cita</h3>
-        </div>
-        <div>
-          <h4>Agenda tus citas de manera más cómoda:</h4>
-          <p>Para agendar, selecciona la fecha en la que deseas que se te atienda, esta información irá a tu terapeuta el cual podrá confirmar si es una fecha ideal. Una vez ambos estén de acuerdo, se agendará en el siguiente calendario; en el caso contrario se regresará una respuesta y las posibles fechas más cercanas a la fecha deseada</p>
-        </div>
-        <div class="cont-citas">
 
-          <form style="display:inline-block;"  method="post">
-            <label for="Horario" name="horario">Horario a elegir:</label>
-            <select name="horas" id="horas">
-              <option value="1">9:00AM - 10:00 AM</option>
-              <option value="2">10:00AM - 11:00 AM</option>
-              <option value="3">11:00AM - 12:00 PM</option>
-              <option value="4">12:00PM - 1:00 PM</option>
-              <option value="5">1:00PM - 2:00 PM</option>
-              <option value="6">2:00 PM - 3:00 PM</option>
-              <option value="7">3:00 PM - 4:00 PM</option>
-              <option value="8">4:00 PM - 5:00 PM</option>
-              <option value="9">5:00 PM - 6:00 PM</option>
-              <option value="10">6:00 PM - 7:00 PM</option>
-            </select>
-            <br>
-            <label for="Día">Fecha a elegir:</label>
-            <select name="fecha">
-              <?php
+<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+<stripe-pricing-table pricing-table-id="prctbl_1O5jKQLcbdChabAXqGVnEYMt"
+publishable-key="pk_test_51Nxa8nLcbdChabAXc7ZgVkWRx0orif14wBIxgzEDrjyiZ4tzh9f50lZdUMjl1SEkh3a5L28UMVSe7MRXjfWx1eOy00hGfB9hQ7">
+</stripe-pricing-table>
 
-
-              // Obtener la fecha actual
-              $fechaActual = new DateTime();
-              $dia = $fechaActual->format( 'N' );
-              // Mostrar las fechas desde hoy hasta 4 días después
-              for ($i = 0; $i <= 7; $i++) {
-                $fecha = $fechaActual->format('d-m-Y');
-                echo '<option value="' . $fecha . '">' . $fecha . '</option>';
-
-                // Añadir un día a la fecha actual
-                $fechaActual->add(new DateInterval('P1D'));
-              }
-              ?>
-            </select>
-            <br>
-            <label for="Especialista" >Especialista:</label>
-            <select name="especialista" id="especialista">
-              <option value="2">Psicólogo</option>
-              <option value="1">Psiquiatra</option>
-            </select>
-
-            <button type="submit" class="font-weight-bold" id="submitagenda" name="submitagenda" formaction="agendacita.php">Agendar cita</button>
-
-
-
-            <!-- <div class="row container-fluid cms py-0" style="height:100px"></div> -->
-
-            <!-- Tabla de agenda -->
-            <div style="padding-top: 50px;">
-              <?php
-               function getDateString($date) {
-                $date = strval($date);
-                $dia = substr($date, 0, 2);
-                $mes = substr($date, 2, 2);
-                $ano = substr($date, 4, 8);
-                $newDate = "$dia-$mes-$ano";
-                return $newDate;
-              }
-
-
-              $id_paciente = $_SESSION['id_paciente'];
-              $username = "root";
-              $password = "";
-              $database = "citasfapsi";
-              $mysqli = new mysqli("localhost", $username, $password, $database);
-              $query = "SELECT 
-                      p.id_psicologo,
-                      p.nombres, 
-                      p.apellidos, 
-                      p.id_precio, 
-                      p.id_especializacion,
-                      e.nombre_especializacion, 
-                      pr.precio_hora
-                      FROM psicólogos p 
-                      INNER JOIN especializaciones e 
-                      ON p.id_especializacion = e.id_especializacion
-                      INNER JOIN precios pr
-                      ON p.id_precio = pr.id_precio";
-
-              echo '<table border="0" cellspacing="5" cellpadding="5"><tr>
-                    <td style="font-size: 20px;">Nombres</td> 
-                    <td style="font-size: 20px;">Apellidos</td> 
-                    <td style="font-size: 20px;">Costo de Sesión</td>
-                    <td style="font-size: 20px;">Especialidad</td>
-                    <td style="font-size: 20px;"></td>
-                    </tr>';
-            if ($result = $mysqli->query($query)) {
-                while ($row = $result->fetch_assoc()) {
-                  $field1name = $row["nombres"];
-                  $field2name = $row["apellidos"];
-                  $field3name = $row["precio_hora"];
-                  $field4name = $row["nombre_especializacion"];
-                  $valueId = $row["id_psicologo"];
-
-                  echo '<tr>
-                            <td>Dr. ' . $field1name . '</td> 
-                            <td>' . $field2name . '</td> 
-                            <td>$200 x hora </td>
-                            <td>' . $field4name . '</td>
-                            <td> 
-                                  <button style="width: auto;" type="submit" class="font-weight-bold" id="consulta_horarios" value ='.$row["id_psicologo"].' name="consulta_horarios" formaction="CONSULTAR_HORARIOS.php">Consulta disponibilidad aqu&iacute</button>
-                            </td>
-                        </tr>';
-                }
-                $result->free();
-              }
-              echo '</table>';
-
-              ?>
-              <br>
-
-            </div>
-          </form>
-
-        </div>
-      </div>
-
-	<!-- CUADRO DERECHO -->
-      <div style="width: 500px; margin-left: .5vw;" class="Citas-main text-center" >
-        <div>
-        <div>
-          <h3 style="font-size: 50px;">Mis citas</h3>
-        </div>
-        <div>
-          <h4>Revisa tus citas realizadas anteriormente:</h4>
-          <p>Para revisar tu agenda, selecciona a continuación el botón, en donde se desplegará una tabla con tus citas y su respectiva información.</p>
-        </div>
-        <div style="align-content: center;" class="cont-citas">
-        	<form style="width: 200px;">
-			<?php 
-			
-			echo '<button type="submit" class="font-weight-bold" id="mis_citas" value ='.$user.' name="mis_citas" formaction="MIS_CITAS.php">Mis citas</button>';
-			
-			?>
-			</form>
-              <br>
-        </div>
-      </div>
-      </div>
-      
-      <div class="Citas-main text-center mt-4" style="margin-left: 100px; background-color: transparent;">
-        <a href="http://psicologia.uanl.mx"><button class="btn btn-primary" style="border-color: transparent;">Salir a la Facultad de Psicología</button></a>
-      </div>
       
     </div>
     <br>
   </div>
 
-
+<div class="row container-fluid cms py-5 w-100">
+    <div class="card-body">
+		<div class="Citas-main text-center mt-4" style="margin-left: auto; margin-right: auto; background-color: transparent;">
+        <a href="http://psicologia.uanl.mx"><button class="btn btn-primary" style="border-color: transparent;">Salir a la Facultad de Psicología</button></a>
+      </div>
+</div>
+</div>
   <!-- CONTENT end-->
 
 

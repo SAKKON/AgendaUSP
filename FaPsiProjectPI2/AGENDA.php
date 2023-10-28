@@ -168,7 +168,7 @@
       <br>
       
       <!-- CUADRO IZQUIERDO -->
-      <div class="Citas-main" style="margin-bottom: 50px;">
+      <div class="Citas-main" style="max-width: 828px; margin-bottom: 50px;">
         <div>
           <h3 style="font-size: 50px;">Agenda cita</h3>
         </div>

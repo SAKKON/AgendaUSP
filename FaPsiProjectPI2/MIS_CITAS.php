@@ -230,7 +230,7 @@
                 $id_cita = $row["id_cita"];
 
                 if($field1name == NULL){
-                    $field1name = "ESPERA";
+                    $field1name = "PENDIENTE DE ASIGNACIÓN";
                 }
 
                 if($field5name == 1) {
@@ -243,9 +243,15 @@
 
 
                 $newDateString = getDateString($field4name);
-                echo '<tr> 
-            <td>'.$field1name.'</td> 
-            <td>'.$field2name.'</td>
+                echo '<tr>';
+                
+                if($field1name == "PENDIENTE DE ASIGNACIÓN"){
+                    echo '<td style="font-weight:bold; font-size: 20px; color: #D3D3D3;"><i>'.$field1name.'</i></td>';
+                }elseif($field1name != NULL){
+                    echo '<td>'.$field1name.'</td>';
+                }
+                
+            echo '<td>'.$field2name.'</td>
             <td>'.$field3name.'</td> 
             <td>'.$newDateString.'</td> 
             <td>'.$dispo.'</td>
@@ -271,8 +277,9 @@
         </div>
 	</div>
       <div id="displayPago" class="showPago">
+      	<div class="Citas-main">NOTA IMPORTANTE: Utiliza el mismo correo electrónico de tu cuenta AgendaUSP a la hora de realizar el pago.</div>
 		<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
-		<stripe-pricing-table pricing-table-id="prctbl_1O5jKQLcbdChabAXqGVnEYMt"
+		<stripe-pricing-table pricing-table-id="prctbl_1O5jKQLcbdChabAXqGVnEYMt" 
 		publishable-key="pk_test_51Nxa8nLcbdChabAXc7ZgVkWRx0orif14wBIxgzEDrjyiZ4tzh9f50lZdUMjl1SEkh3a5L28UMVSe7MRXjfWx1eOy00hGfB9hQ7">
 		</stripe-pricing-table>
       </div>

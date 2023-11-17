@@ -213,7 +213,6 @@
                 if ($resultPago) {
                     $numberPagos = mysqli_fetch_assoc($resultPago);
                     $counter =(int)$numberPagos['paymentStatus'];
-                    echo $numberPagos['paymentStatus'];
                 } else {
                     echo "Error en la consulta: " . mysqli_error($mysqli);
                 }

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style2.css">
+  <?php require 'JSONtoPHP.php' ?>
 
   <title>Agenda - FaPsi</title>
 </head>
@@ -50,6 +51,7 @@
 
               if (isset($_SESSION['dev'])) {
                 $user = $_SESSION['dev'];
+                $userID = $_SESSION['id_paciente'];
                 echo $user;
               } else {
                 echo "Inicia sesion";
@@ -205,7 +207,18 @@
                 ON hc.id_dia = d.id_dia
                 WHERE id_paciente = $id_paciente";
 
-              
+                $queryPago = "SELECT COUNT(*) AS paymentStatus FROM horarios_citas WHERE id_paciente = '$userID' AND paymentStatus = 'paid'";
+                $resultPago = mysqli_query($mysqli, $queryPago);
+               
+                if ($resultPago) {
+                    $numberPagos = mysqli_fetch_assoc($resultPago);
+                    $counter =(int)$numberPagos['paymentStatus'];
+                    echo $numberPagos['paymentStatus'];
+                } else {
+                    echo "Error en la consulta: " . mysqli_error($mysqli);
+                }
+                
+                
 
                 echo '<table border="0" cellspacing="2" cellpadding="2"> 
                 <tr> 
@@ -246,21 +259,31 @@
                 echo '<tr>';
                 
                 if($field1name == "PENDIENTE DE ASIGNACIÓN"){
-                    echo '<td style="font-weight:bold; font-size: 20px; color: #D3D3D3;"><i>'.$field1name.'</i></td>';
+                    echo '<td style="font-weight:bold; font-size: 15px; color: #D3D3D3;"><i>'.$field1name.'</i></td>';
                 }elseif($field1name != NULL){
-                    echo '<td>'.$field1name.'</td>';
+                    echo '<td style="font-weight:bold; font-size: 20px;">'.$field1name.'</td>';
                 }
                 
             echo '<td>'.$field2name.'</td>
             <td>'.$field3name.'</td> 
             <td>'.$newDateString.'</td> 
-            <td>'.$dispo.'</td>
-            <td><a style="cursor: pointer;" onclick="togglePago()">LINEA</a><a href="pagoPresencial.php">     PRESENCIAL</a></td>
-            <td><button type="submit" class="font-weight-bold" id="reprogramar" value ='.$row["id_cita"].' name="reprogramar" formaction="AGENDA_REPROGRAMAR.php">Cambiar</button>
+            <td>'.$dispo.'</td>';
+            if($field1name == "PENDIENTE DE ASIGNACIÓN"){
+              echo'<td>EN ESPERA</td>';
+            }
+            else {
+                if ($counter > 0){
+                    echo '<td><h2>CITA PAGADA</h2></td>';
+                    $counter--;
+                }else{
+                    echo
+                    '<td><a style="cursor: pointer;" onclick="togglePago()"><div class="btn btn-primary" style="margin-top: 10px; border-color: transparent;">LINEA</div></a><a style="cursor: pointer;" href="pagoPresencial.php"><div class="btn btn-primary" style="margin-top: 10px; height: 50px; border-color: transparent;">PRESENCIAL</div></a></td>';
+                }
+            }
+            echo '<td>
+            <button type="submit" class="font-weight-bold" id="reprogramar" value ='.$row["id_cita"].' name="reprogramar" formaction="AGENDA_REPROGRAMAR.php">Cambiar</button>
             </td>
-
             </tr>';
-
             }
 
             $result->free();

@@ -191,7 +191,7 @@
 			<div class="Citas-main"
 				style="max-width: 828px; margin-bottom: 50px;">
 				<div>
-					<h3 style="font-size: 50px;">Agenda cita</h3>
+					<h3 style="font-size: 50px;">Agendar cita</h3>
 				</div>
 				<div>
 					<h4>Agenda tus citas de manera más cómoda:</h4>

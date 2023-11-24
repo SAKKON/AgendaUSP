@@ -293,7 +293,7 @@
               <br>
 
             </div>
-            <button type="submit" formaction="AGENDA.php">Regresar</button>
+            <button type="submit" formaction="AGENDA.php"><b>Regresar</b></button>
 
           </form>
         </div>

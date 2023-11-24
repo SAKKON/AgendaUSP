@@ -1,11 +1,11 @@
 [{
-  "id": "evt_1ODXUVLcbdChabAXTxIFPK5R",
+  "id": "evt_1OG1COLcbdChabAXRYLswXQ0",
   "object": "event",
   "api_version": "2023-08-16",
-  "created": 1700248451,
+  "created": 1700839304,
   "data": {
     "object": {
-      "id": "cs_test_a1GS3izrZNvXZpr0oPwliNTltz3qTtiaEpsClYc2sdqB8dMTAzMMVXBRq5",
+      "id": "cs_test_a1sQQzFQD5jCRw2evL72iPxAOGemE1AFFBL82hFf5yAHu231eecHVdWEcP",
       "object": "checkout.session",
       "after_expiration": null,
       "allow_promotion_codes": false,
@@ -24,7 +24,7 @@
         "promotions": "none",
         "terms_of_service": "none"
       },
-      "created": 1700248440,
+      "created": 1700839293,
       "currency": "mxn",
       "currency_conversion": null,
       "custom_fields": [
@@ -46,7 +46,7 @@
           "postal_code": null,
           "state": null
         },
-        "email": "correo@correo.mx",
+        "email": "jair.villarreal23@gmail.com",
         "name": "Gerardo Jair Villarreal Martínez",
         "phone": null,
         "tax_exempt": "none",
@@ -55,7 +55,7 @@
         ]
       },
       "customer_email": null,
-      "expires_at": 1700334840,
+      "expires_at": 1700925693,
       "invoice": null,
       "invoice_creation": null,
       "livemode": false,
@@ -63,7 +63,7 @@
       "metadata": {
       },
       "mode": "payment",
-      "payment_intent": "pi_3ODXUTLcbdChabAX2wNtKbX1",
+      "payment_intent": "pi_3OG1CMLcbdChabAX0htArQ2M",
       "payment_link": null,
       "payment_method_collection": "if_required",
       "payment_method_configuration_details": {

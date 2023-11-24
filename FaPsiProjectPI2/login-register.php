@@ -26,6 +26,7 @@ $result = mysqli_query($conn, $id);
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $id_paciente = $row['id_paciente'];
+    $correoUser = $row['correo'];
     // Aquí puedes utilizar el ID del paciente como necesites
     echo "ID del paciente: " . $id_paciente;
 } else {
@@ -38,6 +39,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     session_start();
 		$_SESSION['rol'] = 'paciente';
 		$_SESSION['id_paciente'] = $id_paciente;
+		$_SESSION['correo'] = $correoUser;
     if ($nr != 0) {
         $_SESSION['dev'] = $_POST[$roleColumn];
 		

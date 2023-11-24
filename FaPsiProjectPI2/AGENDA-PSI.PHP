@@ -158,10 +158,10 @@
 
 
 <!-- CONTENT -->
-<div class="row container-fluid cms py-5 w-100">
+<div class="row container-fluid cms py-5">
 
 
-  <div class="card-body h-25 w-100">
+  <div style="margin-left:180px;" class="card-body h-25">
   <br>
     <div class="Citas-main">
       <div>
@@ -177,7 +177,7 @@
         </Div> 
 						
 						
-        <div style="padding-top: 50px;">
+        <div style="margin: 100px;">
 
             <?php 
             $username = "root"; 
